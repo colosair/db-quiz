@@ -178,19 +178,22 @@
   .home-intro h2 { font-size: 18px; margin-bottom: 12px; color: var(--text); }
   .home-intro ul { list-style: none; padding-left: 0; }
   .home-intro li {
-    padding: 6px 0;
+    position: relative;
+    padding: 6px 0 6px 20px;
     font-size: 14px;
     color: var(--text-soft);
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
+    line-height: 1.7;
+    word-break: keep-all;
   }
   .home-intro li::before {
     content: '▸';
+    position: absolute;
+    left: 0;
+    top: 6px;
     color: var(--accent);
     font-family: var(--mono);
-    flex-shrink: 0;
   }
+  .home-intro li b { display: inline; }
 
   .home-actions {
     display: flex;
@@ -944,14 +947,16 @@
   // navigateTo: 새 페이지로 이동 (history에 push)
   function navigateTo(pageName, payload = {}) {
     const state = { page: pageName, ...payload };
-    history.pushState(state, '', '#' + pageName);
+    const url = pageName === 'home' ? location.pathname : '#' + pageName;
+    history.pushState(state, '', url);
     renderState(state);
   }
 
   // replaceState: 현재 history 항목 덮어쓰기
   function replaceState(pageName, payload = {}) {
     const state = { page: pageName, ...payload };
-    history.replaceState(state, '', '#' + pageName);
+    const url = pageName === 'home' ? location.pathname : '#' + pageName;
+    history.replaceState(state, '', url);
     renderState(state);
   }
 
